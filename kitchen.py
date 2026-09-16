@@ -25,7 +25,8 @@ class Sum:
         self.right = right
 
     def reduce(self, unit):
-        return None
+        amount = self.left.amount + self.right.amount
+        return Quantity(amount, unit)
 
 
 class Converter:
