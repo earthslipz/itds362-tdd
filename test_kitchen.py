@@ -49,3 +49,10 @@ def test_addition_with_different_units():
     total = grams(200).plus(ounces(1))
     converter = Converter({"oz": 28.0})
     assert converter.reduce(total, "g") == grams(228)
+
+
+def test_multiply_sum():
+    total = grams(200).plus(ounces(1))
+    converter = Converter({"oz": 28.0})
+    doubled = total.times(2)
+    assert converter.reduce(doubled, "g") == grams(456)
