@@ -7,7 +7,10 @@
         return Quantity(self.amount * multiplier, self.unit)
 
     def plus(self, other):
-        return Quantity(500, "g")
+        return Sum(self, other)
+
+    def reduce(self, unit):
+        return self
 
     def __eq__(self, other):
         return self.amount == other.amount and self.unit == other.unit
@@ -16,6 +19,15 @@
         return f"Quantity({self.amount}, {self.unit!r})"
 
 
+class Sum:
+    def __init__(self, left, right):
+        self.left = left
+        self.right = right
+
+    def reduce(self, unit):
+        return None
+
+
 class Converter:
     def reduce(self, source, unit):
-        return source
+        return source.reduce(unit)
