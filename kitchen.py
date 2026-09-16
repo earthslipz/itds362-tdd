@@ -24,6 +24,9 @@ class Sum:
         self.left = left
         self.right = right
 
+    def times(self, multiplier):
+        return Sum(self.left.times(multiplier), self.right.times(multiplier))
+
     def reduce(self, unit):
         amount = self.left.amount + self.right.amount
         return Quantity(amount, unit)
@@ -39,7 +42,6 @@ class Converter:
         rate = self.rates.get(quantity.unit)
         if rate is None:
             raise ValueError(f"No rate for {quantity.unit}")
-        # assume rate is amount in grams per 1 unit
         if unit == "g":
             return Quantity(quantity.amount * rate, "g")
         else:
