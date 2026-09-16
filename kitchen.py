@@ -30,5 +30,26 @@ class Sum:
 
 
 class Converter:
+    def __init__(self, rates=None):
+        self.rates = rates or {}
+
+    def convert(self, quantity, unit):
+        if quantity.unit == unit:
+            return quantity
+        rate = self.rates.get(quantity.unit)
+        if rate is None:
+            raise ValueError(f"No rate for {quantity.unit}")
+        # assume rate is amount in grams per 1 unit
+        if unit == "g":
+            return Quantity(quantity.amount * rate, "g")
+        else:
+            raise ValueError(f"Unsupported conversion to {unit}")
+
     def reduce(self, source, unit):
-        return source.reduce(unit)
+        if isinstance(source, Quantity):
+            return self.convert(source, unit)
+        if isinstance(source, Sum):
+            left = self.reduce(source.left, unit)
+            right = self.reduce(source.right, unit)
+            return Quantity(left.amount + right.amount, unit)
+        raise TypeError("Unknown source type")
