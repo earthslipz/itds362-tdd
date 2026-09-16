@@ -43,3 +43,9 @@ def test_simple_addition():
     total = grams(200).plus(grams(300))
     converter = Converter()
     assert converter.reduce(total, "g") == grams(500)
+
+
+def test_addition_with_different_units():
+    total = grams(200).plus(ounces(1))
+    converter = Converter({"oz": 28.0})
+    assert converter.reduce(total, "g") == grams(228)
